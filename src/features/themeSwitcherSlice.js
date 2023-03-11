@@ -23,6 +23,8 @@ const dark = () => {
         'hsl(235, 21%, 11%)'
     );
 
+    root.style.setProperty('--color-box-bg', 'hsla(235, 24%, 19%, 1)');
+
     root.style.setProperty(
         '--box-shadow-main',
         '0px 35px 50px -15px rgba(0, 0, 0, 0.5)'
@@ -38,6 +40,8 @@ const light = () => {
         '--color-darkBlue---lightGray',
         'hsla(0, 0%, 98%, 1)'
     );
+
+    root.style.setProperty('--color-box-bg', 'hsla(0, 0%, 100%, 1)');
 
     root.style.setProperty(
         '--box-shadow-main',

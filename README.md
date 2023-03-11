@@ -15,7 +15,9 @@ This is a solution to the [Todo app challenge on Frontend Mentor](https://www.fr
 ### Dark Theme
 
 -   Very Dark Blue: hsl(235, 21%, 11%)
+
 -   Very Dark Desaturated Blue: hsl(235, 24%, 19%)
+
 -   Light Grayish Blue: hsl(234, 39%, 85%)
 -   Light Grayish Blue (hover): hsl(236, 33%, 92%)
 -   Dark Grayish Blue: hsl(234, 11%, 52%)

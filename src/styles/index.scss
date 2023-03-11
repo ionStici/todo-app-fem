@@ -1,3 +1,24 @@
+:root {
+    // share
+    --color-white: hsla(0, 0%, 100%, 1);
+    --color-bright-blue: hsl(220, 98%, 61%);
+    // prettier-ignore
+    --linear-gradient-bg: linear-gradient(to right bottom,hsl(192, 100%, 67%),hsl(280, 87%, 65%));
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Josefin Sans', sans-serif;
+    background-color: var(--color-darkBlue---lightGray);
+    transition: background-color 0.15s;
 }

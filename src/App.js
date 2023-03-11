@@ -1,5 +1,13 @@
+import { Layout } from './features/layout';
+
 function App() {
-    return null;
+    return (
+        <>
+            <main>
+                <Layout />
+            </main>
+        </>
+    );
 }
 
 export default App;

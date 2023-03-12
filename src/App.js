@@ -1,12 +1,12 @@
 import { Layout } from './features/layout';
-import { Todo } from './features/todoApp';
+import { TodoApp } from './features/todoApp';
 
 function App() {
     return (
         <>
             <main>
                 <Layout />
-                <Todo />
+                <TodoApp />
             </main>
         </>
     );

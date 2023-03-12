@@ -15,13 +15,13 @@ const options = {
             ];
         },
 
-        deleteAllTodos: (state, action) => {
-            return [];
-        },
-
         toggleTodo: (state, action) => {
             const todo = state.find(todo => todo.id === +action.payload);
             if (todo) todo.completed = !todo.completed;
+        },
+
+        deleteAllTodos: (state, action) => {
+            return [];
         },
 
         deleteTodo: (state, action) => {
@@ -45,7 +45,15 @@ const options = {
 const todosSlice = createSlice(options);
 
 export default todosSlice.reducer;
-export const { addTodo, toggleTodo, deleteAllTodos, deleteTodo, reorderIds } =
-    todosSlice.actions;
+export const {
+    addTodo,
+    toggleTodo,
+    deleteAllTodos,
+    deleteTodo,
+    reorderIds,
+    filterAll,
+    filterActive,
+    filterCompleted,
+} = todosSlice.actions;
 
 export const selectTodos = state => state.todos;

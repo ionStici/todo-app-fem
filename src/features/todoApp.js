@@ -10,6 +10,9 @@ import {
     deleteAllTodos,
     deleteTodo,
     reorderIds,
+    filterAll,
+    filterActive,
+    filterCompleted,
 } from './todosSlice';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,6 +25,10 @@ export const Todo = function () {
 
     const todos = useSelector(selectTodos);
 
+    const allBtn = React.useRef(null);
+    const activeBtn = React.useRef(null);
+    const completedBtn = React.useRef(null);
+
     const handleSubmit = event => {
         event.preventDefault();
         dispatch(addTodo(input.current.value));
@@ -31,10 +38,21 @@ export const Todo = function () {
     const handleClick = event => {
         const type = event.target.dataset.type;
 
-        if (type === 'clear') dispatch(deleteAllTodos());
-        // if (type === 'all') console.log('all');
-        // if (type === 'active') console.log('active');
-        // if (type === 'completed') console.log('completed');
+        if (type === 'clear') {
+            dispatch(deleteAllTodos());
+        }
+
+        if (type === 'all') {
+            dispatch(filterAll());
+        }
+
+        if (type === 'active') {
+            dispatch(filterActive());
+        }
+
+        if (type === 'completed') {
+            dispatch(filterCompleted());
+        }
     };
 
     const handleTodoClick = event => {
@@ -44,9 +62,10 @@ export const Todo = function () {
             return;
         }
 
-        // console.log(event.target);
-
-        dispatch(toggleTodo(event.target.id));
+        if (event.target.dataset.type === 'toggleTodo') {
+            dispatch(toggleTodo(event.target.dataset.id));
+            return;
+        }
     };
 
     const circleStyles = {
@@ -85,6 +104,9 @@ export const Todo = function () {
                                     key={i}
                                     id={todo.id}
                                     onClick={handleTodoClick}
+                                    data-type="toggleTodo"
+                                    data-id={todo.id}
+                                    draggable
                                 >
                                     <div
                                         className={styles.todoCircle}
@@ -93,6 +115,8 @@ export const Todo = function () {
                                                 ? circleStyles
                                                 : undefined
                                         }
+                                        data-type="toggleTodo"
+                                        data-id={todo.id}
                                     >
                                         <img
                                             className={styles.iconCheck}
@@ -103,6 +127,8 @@ export const Todo = function () {
                                                     ? iconStyles
                                                     : undefined
                                             }
+                                            data-type="toggleTodo"
+                                            data-id={todo.id}
                                         />
                                         <div
                                             className={styles.todoCircleTop}
@@ -111,6 +137,8 @@ export const Todo = function () {
                                                     ? circleTopStyles
                                                     : undefined
                                             }
+                                            data-type="toggleTodo"
+                                            data-id={todo.id}
                                         ></div>
                                     </div>
 
@@ -121,6 +149,8 @@ export const Todo = function () {
                                                 ? textStyles
                                                 : undefined
                                         }
+                                        data-type="toggleTodo"
+                                        data-id={todo.id}
                                     >
                                         {todo.text}
                                     </p>
@@ -161,6 +191,7 @@ export const Todo = function () {
                         className={styles.allBtn}
                         onClick={handleClick}
                         data-type="all"
+                        ref={allBtn}
                     >
                         All
                     </button>
@@ -168,6 +199,7 @@ export const Todo = function () {
                         className={styles.activeBtn}
                         onClick={handleClick}
                         data-type="active"
+                        ref={activeBtn}
                     >
                         Active
                     </button>
@@ -175,6 +207,7 @@ export const Todo = function () {
                         className={styles.completedBtn}
                         onClick={handleClick}
                         data-type="completed"
+                        ref={completedBtn}
                     >
                         Completed
                     </button>

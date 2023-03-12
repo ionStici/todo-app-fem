@@ -10,33 +10,64 @@ import {
     filterAllTodos,
     filterActiveTodos,
     filterCompletedTodos,
+    deleteTodo,
+    reorderIDs,
+    clearCompleted,
 } from './todosSlice';
 
 export const TodoApp = function () {
     const dispatch = useDispatch();
     const todos = useSelector(selectCurrentTodos);
+    const [filter, setFilter] = React.useState('all');
+
+    const setFilterAll = () => (filter = 'all');
+    const setFilterActive = () => (filter = 'active');
+    const setFilterCompleted = () => (filter = 'completed');
 
     const handleSubmit = event => {
         event.preventDefault();
+
         dispatch(addTodo(event.target.querySelector('input').value));
+
+        if (filter === 'all') dispatch(filterAllTodos());
+        if (filter === 'active') dispatch(filterActiveTodos());
+        if (filter === 'completed') dispatch(filterCompletedTodos());
+
         event.target.querySelector('input').value = '';
     };
 
     const handleTodoClick = event => {
         if (event.target.dataset.type === 'clearTodo') {
-            console.log('clearTodo');
+            dispatch(deleteTodo(event.target.closest('div').id));
+            dispatch(reorderIDs());
+
+            if (filter === 'all') dispatch(filterAllTodos());
+            if (filter === 'active') dispatch(filterActiveTodos());
+            if (filter === 'completed') dispatch(filterCompletedTodos());
+
             return;
         }
 
         if (event.target.dataset.type === 'toggleTodo') {
             dispatch(toggleTodo(event.target.dataset.id));
+
+            if (filter === 'all') dispatch(filterAllTodos());
+            if (filter === 'active') dispatch(filterActiveTodos());
+            if (filter === 'completed') dispatch(filterCompletedTodos());
+
             return;
         }
     };
 
     const handleBtnClick = event => {
         if (event.target.dataset.type === 'clear') {
-            console.log('clear');
+            dispatch(clearCompleted());
+            dispatch(reorderIDs());
+
+            if (filter === 'all') dispatch(filterAllTodos());
+            if (filter === 'active') dispatch(filterActiveTodos());
+            if (filter === 'completed') dispatch(filterCompletedTodos());
+
             return;
         }
 
@@ -47,21 +78,34 @@ export const TodoApp = function () {
 
         if (event.target.dataset.type === 'all') {
             event.target.style.color = 'var(--color-bright-blue)';
+            setFilter('all');
+
             dispatch(filterAllTodos());
+
             return;
         }
 
         if (event.target.dataset.type === 'active') {
             event.target.style.color = 'var(--color-bright-blue)';
+            setFilter('active');
+
             dispatch(filterActiveTodos());
+
             return;
         }
 
         if (event.target.dataset.type === 'completed') {
             event.target.style.color = 'var(--color-bright-blue)';
+            setFilter('completed');
+
             dispatch(filterCompletedTodos());
+
             return;
         }
+
+        if (filter === 'all') dispatch(filterAllTodos());
+        if (filter === 'active') dispatch(filterActiveTodos());
+        if (filter === 'completed') dispatch(filterCompletedTodos());
     };
 
     return (

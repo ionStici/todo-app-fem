@@ -15,8 +15,6 @@ const options = {
                 text: action.payload,
                 completed: false,
             });
-
-            state.currentTodos = [...state.allTodos];
         },
 
         toggleTodo: (state, action) => {
@@ -25,16 +23,31 @@ const options = {
                     todo.completed = !todo.completed;
                 }
             });
+        },
 
-            state.currentTodos = [...state.allTodos];
+        deleteTodo: (state, action) => {
+            const todo = state.allTodos.find(todo => {
+                if (todo.id === +action.payload) {
+                    return todo;
+                }
+            });
+
+            const index = state.allTodos.indexOf(todo);
+
+            state.allTodos.splice(index, 1);
+        },
+
+        reorderIDs: (state, action) => {
+            state.allTodos = state.allTodos.map((todo, i) => {
+                return {
+                    ...todo,
+                    id: i + 1,
+                };
+            });
         },
 
         filterAllTodos: (state, action) => {
-            state.currentTodos = [];
-
-            state.allTodos.forEach(todo => {
-                state.currentTodos.push(todo);
-            });
+            state.currentTodos = [...state.allTodos];
         },
 
         filterActiveTodos: (state, action) => {
@@ -56,6 +69,12 @@ const options = {
                 }
             });
         },
+
+        clearCompleted: (state, action) => {
+            state.allTodos = state.allTodos.filter(todo => {
+                if (todo.completed === false) return todo;
+            });
+        },
     },
 };
 
@@ -69,6 +88,9 @@ export const {
     filterAllTodos,
     filterActiveTodos,
     filterCompletedTodos,
+    deleteTodo,
+    reorderIDs,
+    clearCompleted,
 } = todosSlice.actions;
 
 export const selectCurrentTodos = state => state.todos.currentTodos;

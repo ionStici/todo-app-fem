@@ -1,43 +1,53 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './../styles/todoApp.module.scss';
 
 import iconCheck from './../images/icon-check.svg';
 import iconCross from './../images/icon-cross.svg';
 
+import {
+    addTodo,
+    toggleTodo,
+    deleteAllTodos,
+    deleteTodo,
+    reorderIds,
+} from './todosSlice';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { selectTodos } from './todosSlice';
+
 export const Todo = function () {
+    const dispatch = useDispatch();
     const input = React.useRef(null);
+    useEffect(() => input.current.focus());
+
+    const todos = useSelector(selectTodos);
 
     const handleSubmit = event => {
         event.preventDefault();
-        const value = input.current.value;
-        console.log(value);
+        dispatch(addTodo(input.current.value));
+        input.current.value = '';
     };
 
     const handleClick = event => {
         const type = event.target.dataset.type;
 
-        if (type === 'clear') console.log('clear');
-        if (type === 'all') console.log('all');
-        if (type === 'active') console.log('active');
-        if (type === 'completed') console.log('completed');
+        if (type === 'clear') dispatch(deleteAllTodos());
+        // if (type === 'all') console.log('all');
+        // if (type === 'active') console.log('active');
+        // if (type === 'completed') console.log('completed');
     };
 
     const handleTodoClick = event => {
-        console.log('todo clicked');
-
         if (event.target.dataset.type === 'clearTodo') {
-            console.log('clear todo');
+            dispatch(deleteTodo(event.target.closest('div').id));
+            dispatch(reorderIds());
+            return;
         }
-    };
 
-    const todos = [
-        { id: 1, text: 'do that 1', completed: false },
-        { id: 2, text: 'do this 2', completed: false },
-        { id: 3, text: 'do that 3', completed: false },
-        { id: 4, text: 'do this 4', completed: true },
-        { id: 5, text: 'do that 5', completed: true },
-        { id: 6, text: 'do this 6', completed: true },
-    ];
+        // console.log(event.target);
+
+        dispatch(toggleTodo(event.target.id));
+    };
 
     const circleStyles = {
         border: 'none',

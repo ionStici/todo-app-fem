@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { toggleDark, toggleLight } from './themeSwitchers';
 
 import iconMoon from './../images/icon-moon.svg';
 import iconSun from './../images/icon-sun.svg';
@@ -13,42 +14,6 @@ import deskLight from './../images/bg-desktop-light.jpg';
     new Image().src = img;
 });
 
-const root = document.documentElement;
-
-// // // // // // // // // //
-
-const dark = () => {
-    root.style.setProperty(
-        '--color-darkBlue---lightGray',
-        'hsl(235, 21%, 11%)'
-    );
-
-    root.style.setProperty('--color-box-bg', 'hsla(235, 24%, 19%, 1)');
-
-    root.style.setProperty(
-        '--box-shadow-main',
-        '0px 35px 50px -15px rgba(0, 0, 0, 0.5)'
-    );
-};
-
-dark();
-
-// // // // // // // // // //
-
-const light = () => {
-    root.style.setProperty(
-        '--color-darkBlue---lightGray',
-        'hsla(0, 0%, 98%, 1)'
-    );
-
-    root.style.setProperty('--color-box-bg', 'hsla(0, 0%, 100%, 1)');
-
-    root.style.setProperty(
-        '--box-shadow-main',
-        '0px 35px 50px -15px rgba(194, 195, 214, 0.5)'
-    );
-};
-
 // // // // // // // // // //
 
 const themeSlice = createSlice({
@@ -60,7 +25,7 @@ const themeSlice = createSlice({
     },
     reducers: {
         switchDark: (state, action) => {
-            dark();
+            toggleDark();
             return {
                 theme: 'dark',
                 icon: iconSun,
@@ -69,7 +34,7 @@ const themeSlice = createSlice({
         },
 
         switchLight: (state, action) => {
-            light();
+            toggleLight();
             return {
                 theme: 'light',
                 icon: iconMoon,
@@ -88,6 +53,6 @@ export const selectIcon = state => state.theme.icon;
 export const selectTheme = state => state.theme.theme;
 export const selectImgs = state => state.theme.imgs;
 
-// console.log(themeSlice);
-
 // // // // // // // // // //
+
+toggleDark();

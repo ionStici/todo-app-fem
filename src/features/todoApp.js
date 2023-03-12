@@ -1,10 +1,25 @@
 import React from 'react';
 import { Todo } from './markup';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { selectCurrentTodos } from './todosSlice';
+
+import {
+    addTodo,
+    toggleTodo,
+    filterAllTodos,
+    filterActiveTodos,
+    filterCompletedTodos,
+} from './todosSlice';
+
 export const TodoApp = function () {
+    const dispatch = useDispatch();
+    const todos = useSelector(selectCurrentTodos);
+
     const handleSubmit = event => {
         event.preventDefault();
-        // event.target.querySelector('input').value;
+        dispatch(addTodo(event.target.querySelector('input').value));
+        event.target.querySelector('input').value = '';
     };
 
     const handleTodoClick = event => {
@@ -14,8 +29,7 @@ export const TodoApp = function () {
         }
 
         if (event.target.dataset.type === 'toggleTodo') {
-            console.log('toggleTodo');
-            // event.target.dataset.id
+            dispatch(toggleTodo(event.target.dataset.id));
             return;
         }
     };
@@ -32,27 +46,27 @@ export const TodoApp = function () {
         });
 
         if (event.target.dataset.type === 'all') {
-            console.log('all');
             event.target.style.color = 'var(--color-bright-blue)';
+            dispatch(filterAllTodos());
             return;
         }
 
         if (event.target.dataset.type === 'active') {
             event.target.style.color = 'var(--color-bright-blue)';
-            console.log('active');
+            dispatch(filterActiveTodos());
             return;
         }
 
         if (event.target.dataset.type === 'completed') {
             event.target.style.color = 'var(--color-bright-blue)';
-            console.log('completed');
+            dispatch(filterCompletedTodos());
             return;
         }
     };
 
     return (
         <Todo
-            todos={[]}
+            todos={todos}
             onSubmit={handleSubmit}
             onTodoClick={handleTodoClick}
             onBtnClick={handleBtnClick}

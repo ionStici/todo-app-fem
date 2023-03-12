@@ -105,7 +105,9 @@ export const Todo = props => {
                     </div>
 
                     <div className={styles.bottomBox}>
-                        <p className={styles.left}>{todos.length} items left</p>
+                        <p className={styles.left}>
+                            {props.leftItems} items left
+                        </p>
                         <button
                             className={styles.clearBtn}
                             data-type="clear"

@@ -2,7 +2,7 @@ import React from 'react';
 import { Todo } from './markup';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { selectCurrentTodos } from './todosSlice';
+import { selectCurrentTodos, selectLeftItems } from './todosSlice';
 
 import {
     addTodo,
@@ -13,21 +13,20 @@ import {
     deleteTodo,
     reorderIDs,
     clearCompleted,
+    setLeftItems,
 } from './todosSlice';
 
 export const TodoApp = function () {
     const dispatch = useDispatch();
     const todos = useSelector(selectCurrentTodos);
+    const leftItems = useSelector(selectLeftItems);
     const [filter, setFilter] = React.useState('all');
-
-    const setFilterAll = () => (filter = 'all');
-    const setFilterActive = () => (filter = 'active');
-    const setFilterCompleted = () => (filter = 'completed');
 
     const handleSubmit = event => {
         event.preventDefault();
 
         dispatch(addTodo(event.target.querySelector('input').value));
+        dispatch(setLeftItems());
 
         if (filter === 'all') dispatch(filterAllTodos());
         if (filter === 'active') dispatch(filterActiveTodos());
@@ -39,6 +38,7 @@ export const TodoApp = function () {
     const handleTodoClick = event => {
         if (event.target.dataset.type === 'clearTodo') {
             dispatch(deleteTodo(event.target.closest('div').id));
+            dispatch(setLeftItems());
             dispatch(reorderIDs());
 
             if (filter === 'all') dispatch(filterAllTodos());
@@ -50,6 +50,8 @@ export const TodoApp = function () {
 
         if (event.target.dataset.type === 'toggleTodo') {
             dispatch(toggleTodo(event.target.dataset.id));
+
+            dispatch(setLeftItems());
 
             if (filter === 'all') dispatch(filterAllTodos());
             if (filter === 'active') dispatch(filterActiveTodos());
@@ -108,9 +110,14 @@ export const TodoApp = function () {
         if (filter === 'completed') dispatch(filterCompletedTodos());
     };
 
+    // // // // // // // // // // // // // // //
+
+    // // // // // // // // // // // // // // //
+
     return (
         <Todo
             todos={todos}
+            leftItems={leftItems}
             onSubmit={handleSubmit}
             onTodoClick={handleTodoClick}
             onBtnClick={handleBtnClick}

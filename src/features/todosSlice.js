@@ -6,6 +6,7 @@ const options = {
     initialState: {
         allTodos: [],
         currentTodos: [],
+        leftItems: 0,
     },
 
     reducers: {
@@ -37,7 +38,7 @@ const options = {
             state.allTodos.splice(index, 1);
         },
 
-        reorderIDs: (state, action) => {
+        reorderIDs: state => {
             state.allTodos = state.allTodos.map((todo, i) => {
                 return {
                     ...todo,
@@ -46,11 +47,11 @@ const options = {
             });
         },
 
-        filterAllTodos: (state, action) => {
+        filterAllTodos: state => {
             state.currentTodos = [...state.allTodos];
         },
 
-        filterActiveTodos: (state, action) => {
+        filterActiveTodos: state => {
             state.currentTodos = [];
 
             state.allTodos.forEach(todo => {
@@ -60,7 +61,7 @@ const options = {
             });
         },
 
-        filterCompletedTodos: (state, action) => {
+        filterCompletedTodos: state => {
             state.currentTodos = [];
 
             state.allTodos.forEach(todo => {
@@ -70,10 +71,16 @@ const options = {
             });
         },
 
-        clearCompleted: (state, action) => {
+        clearCompleted: state => {
             state.allTodos = state.allTodos.filter(todo => {
                 if (todo.completed === false) return todo;
             });
+        },
+
+        setLeftItems: state => {
+            state.leftItems = state.allTodos.filter(
+                todo => todo.completed === false
+            ).length;
         },
     },
 };
@@ -91,6 +98,8 @@ export const {
     deleteTodo,
     reorderIDs,
     clearCompleted,
+    setLeftItems,
 } = todosSlice.actions;
 
 export const selectCurrentTodos = state => state.todos.currentTodos;
+export const selectLeftItems = state => state.todos.leftItems;

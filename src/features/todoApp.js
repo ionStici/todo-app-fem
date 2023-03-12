@@ -1,6 +1,9 @@
 import React from 'react';
 import styles from './../styles/todoApp.module.scss';
 
+import iconCheck from './../images/icon-check.svg';
+import iconCross from './../images/icon-cross.svg';
+
 export const Todo = function () {
     const input = React.useRef(null);
 
@@ -19,6 +22,37 @@ export const Todo = function () {
         if (type === 'completed') console.log('completed');
     };
 
+    const handleTodoClick = event => {
+        console.log('todo clicked');
+
+        if (event.target.dataset.type === 'clearTodo') {
+            console.log('clear todo');
+        }
+    };
+
+    const todos = [
+        { id: 1, text: 'do that 1', completed: false },
+        { id: 2, text: 'do this 2', completed: false },
+        { id: 3, text: 'do that 3', completed: false },
+        { id: 4, text: 'do this 4', completed: true },
+        { id: 5, text: 'do that 5', completed: true },
+        { id: 6, text: 'do this 6', completed: true },
+    ];
+
+    const circleStyles = {
+        border: 'none',
+        backgroundImage: 'var(--linear-gradient-bg)',
+    };
+
+    const iconStyles = { zIndex: '15' };
+
+    const circleTopStyles = { display: 'none' };
+
+    const textStyles = {
+        textDecoration: 'line-through',
+        color: 'var(--color-inactive-text)',
+    };
+
     return (
         <section className={styles.section}>
             <div className={styles.wrapper}>
@@ -34,17 +68,70 @@ export const Todo = function () {
 
                 <div className={styles.innerWrapper}>
                     <div className={styles.todosBox}>
-                        {/* {['text 1', 'text 2'].map((todo, i) => {
+                        {todos.map((todo, i) => {
                             return (
-                                <div className={styles.todo} key={i}>
-                                    {todo}
+                                <div
+                                    className={styles.todo}
+                                    key={i}
+                                    id={todo.id}
+                                    onClick={handleTodoClick}
+                                >
+                                    <div
+                                        className={styles.todoCircle}
+                                        style={
+                                            todo.completed
+                                                ? circleStyles
+                                                : undefined
+                                        }
+                                    >
+                                        <img
+                                            className={styles.iconCheck}
+                                            src={iconCheck}
+                                            alt=""
+                                            style={
+                                                todo.completed
+                                                    ? iconStyles
+                                                    : undefined
+                                            }
+                                        />
+                                        <div
+                                            className={styles.todoCircleTop}
+                                            style={
+                                                todo.completed
+                                                    ? circleTopStyles
+                                                    : undefined
+                                            }
+                                        ></div>
+                                    </div>
+
+                                    <p
+                                        className={styles.todoText}
+                                        style={
+                                            todo.completed
+                                                ? textStyles
+                                                : undefined
+                                        }
+                                    >
+                                        {todo.text}
+                                    </p>
+
+                                    <img
+                                        className={styles.iconCross}
+                                        src={iconCross}
+                                        alt=""
+                                        data-type="clearTodo"
+                                    />
                                 </div>
                             );
-                        })} */}
+                        })}
 
-                        <div className={styles.default}>
-                            <p>fill the form above to add new todos</p>
-                        </div>
+                        {todos.length === 0 ? (
+                            <div className={styles.default}>
+                                <p>fill the form above to add new todos</p>
+                            </div>
+                        ) : (
+                            ''
+                        )}
                     </div>
 
                     <div className={styles.bottomBox}>

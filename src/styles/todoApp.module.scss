@@ -3,11 +3,11 @@
 .section {
     max-width: 548px;
     padding: 0 24px;
-    margin: -92px auto 0 auto;
+    margin: -92px auto 71px auto;
 
     @media only screen and (min-width: 600px) {
         max-width: 588px;
-        margin-top: -142px;
+        margin: -142px auto 52px auto;
     }
 }
 
@@ -138,8 +138,12 @@
 // // // // // // // // // // // // // // //
 
 .todosBox {
-    max-height: 600px;
     overflow: scroll;
+    max-height: 520px;
+
+    @media only screen and (min-width: 600px) {
+        max-height: 640px;
+    }
 }
 
 .todo {
@@ -147,12 +151,111 @@
     cursor: pointer;
     transition: border 0.15s;
 
+    display: flex;
+    align-items: center;
+
     &:not(:last-child) {
         border-bottom: 1px solid
             var(--color-veryLightGrayBlue---veryDarkGrayBlue);
     }
 
     @media only screen and (min-width: 600px) {
+        height: 64px;
+    }
+
+    &:hover .todoCircle {
+        border: none;
+        background-image: var(--linear-gradient-bg);
+    }
+}
+
+.todoCircle {
+    width: 20px;
+    height: 20px;
+    margin-left: 20px;
+    margin-right: 12px;
+    border-radius: 50%;
+
+    border: 1px solid var(--color-veryLightGrayBlue---veryDarkGrayBlue);
+    transition: border 0.15s;
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media only screen and (min-width: 600px) {
+        width: 24px;
+        height: 24px;
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+
+.todoCircleTop {
+    width: 18px;
+    height: 18px;
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+    background-color: var(--color-box-bg);
+    transition: background-color 0.15s;
+
+    @media only screen and (min-width: 600px) {
+        width: 22px;
+        height: 22px;
+    }
+}
+
+.iconCheck {
+    width: 9px;
+    height: 7px;
+
+    position: relative;
+
+    @media only screen and (min-width: 600px) {
+        width: revert;
+        height: revert;
+    }
+}
+
+// // // // // // // // // // // // // // //
+
+.todoText {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: -0.166667px;
+    color: var(--color-text);
+    transition: color 0.15s;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    @media only screen and (min-width: 600px) {
+        font-size: 18px;
+        line-height: 18px;
+        letter-spacing: -0.25px;
+    }
+}
+
+.iconCross {
+    display: block;
+    padding: 0 20px;
+    margin-left: auto;
+
+    width: 52px;
+    height: 12px;
+
+    @media only screen and (min-width: 600px) {
+        width: 66px;
+        height: 18px;
+        padding: 0 24px;
     }
 }
 

@@ -22,6 +22,8 @@ export const toggleDark = () => {
 
     root.style.setProperty('--color-text', 'hsl(234, 39%, 85%)');
 
+    root.style.setProperty('--color-active-text', 'hsl(236, 33%, 92%)');
+
     root.style.setProperty(
         '--box-shadow-main',
         '0px 35px 50px -15px rgba(0, 0, 0, 0.5)'
@@ -50,15 +52,14 @@ export const toggleLight = () => {
 
     root.style.setProperty('--color-text', 'hsl(235, 19%, 35%)');
 
+    root.style.setProperty('--color-active-text', 'hsl(235, 19%, 35%)');
+
     root.style.setProperty(
         '--box-shadow-main',
         '0px 35px 50px -15px rgba(194, 195, 214, 0.5)'
     );
 };
-// Light Grayish Blue: hsl(234, 39%, 85%) dark
-// Very Dark Grayish Blue: hsl(235, 19%, 35%) light
 
-// // // // // // // // // //
 // -   Very Light Gray: hsl(0, 0%, 98%)  // -   Very Dark Blue: hsl(235, 21%, 11%)
 
 // ### Light Theme

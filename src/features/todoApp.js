@@ -7,7 +7,7 @@ import iconCross from './../images/icon-cross.svg';
 import {
     addTodo,
     toggleTodo,
-    deleteAllTodos,
+    clearCompleted,
     deleteTodo,
     reorderIds,
     filterAll,
@@ -23,7 +23,9 @@ export const Todo = function () {
     const input = React.useRef(null);
     useEffect(() => input.current.focus());
 
-    const todos = useSelector(selectTodos);
+    const allTodos = useSelector(selectTodos);
+    let todos;
+    todos = allTodos;
 
     const allBtn = React.useRef(null);
     const activeBtn = React.useRef(null);
@@ -39,7 +41,7 @@ export const Todo = function () {
         const type = event.target.dataset.type;
 
         if (type === 'clear') {
-            dispatch(deleteAllTodos());
+            dispatch(clearCompleted());
         }
 
         if (type === 'all') {

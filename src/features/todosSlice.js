@@ -20,8 +20,8 @@ const options = {
             if (todo) todo.completed = !todo.completed;
         },
 
-        deleteAllTodos: (state, action) => {
-            return [];
+        clearCompleted: (state, action) => {
+            return state.filter(todo => todo.completed === false);
         },
 
         deleteTodo: (state, action) => {
@@ -33,6 +33,8 @@ const options = {
         reorderIds: state => {
             state.forEach((todo, i) => (todo.id = i + 1));
         },
+
+        rearrangeTodos: (state, action) => {},
 
         filterAll: (state, action) => {},
 
@@ -48,7 +50,7 @@ export default todosSlice.reducer;
 export const {
     addTodo,
     toggleTodo,
-    deleteAllTodos,
+    clearCompleted,
     deleteTodo,
     reorderIds,
     filterAll,

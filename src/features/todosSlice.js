@@ -82,6 +82,10 @@ const options = {
                 todo => todo.completed === false
             ).length;
         },
+
+        reorderTodos: (state, action) => {
+            console.log(action.payload);
+        },
     },
 };
 
@@ -99,6 +103,7 @@ export const {
     reorderIDs,
     clearCompleted,
     setLeftItems,
+    reorderTodos,
 } = todosSlice.actions;
 
 export const selectCurrentTodos = state => state.todos.currentTodos;

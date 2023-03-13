@@ -3,6 +3,9 @@ import styles from './../styles/todoApp.module.scss';
 import iconCheck from './../images/icon-check.svg';
 import iconCross from './../images/icon-cross.svg';
 
+import { reorderTodos } from './todosSlice';
+import { useDispatch } from 'react-redux';
+
 // prettier-ignore
 const circleStyles = { border: 'none', backgroundImage: 'var(--linear-gradient-bg)' };
 // prettier-ignore
@@ -11,7 +14,52 @@ const iconStyles = { zIndex: '15' };
 const circleTopStyles = { display: 'none' };
 
 export const Todo = props => {
+    const dispatch = useDispatch();
     const todos = props.todos;
+
+    let dragTodo = React.useRef(null);
+    let prevTodo = React.useRef(null);
+
+    let dropBox = React.useRef(null);
+    let prevDropBox = React.useRef(null);
+
+    // // // // // // // // // // // // // // //
+
+    const handleDragStart = event => {
+        if (event.target.dataset.type === 'clearTodo') return;
+
+        dragTodo.current = event.target.closest('.todo_item');
+        prevDropBox.current = dragTodo.current.closest('.todo_box');
+    };
+
+    const handleDragEnd = event => {};
+
+    // // // // // // // // // // // // // // //
+
+    const handleDropOver = event => {
+        event.preventDefault();
+    };
+
+    const handleDragLeave = event => {};
+
+    const handleDragEnter = event => {};
+
+    const handleDrop = event => {
+        event.preventDefault();
+
+        prevTodo.current = event.target.closest('.todo_item');
+        dropBox.current = event.target.closest('.todo_box');
+
+        dropBox.current.appendChild(dragTodo.current);
+        prevDropBox.current.appendChild(prevTodo.current);
+
+        const wrapper = document.querySelector('.todos_box');
+        const todos = [...wrapper.querySelectorAll('.todo_item')];
+        const ids = todos.map(box => +box.dataset.id);
+        dispatch(reorderTodos(ids));
+    };
+
+    // // // // // // // // // // // // // // //
 
     return (
         <section className={styles.section}>
@@ -26,78 +74,94 @@ export const Todo = props => {
                 </form>
 
                 <div className={styles.innerWrapper}>
-                    <div className={styles.todosBox}>
+                    <div className={`${styles.todosBox} ${'todos_box'}`}>
                         {todos.map((todo, i) => {
                             return (
                                 <div
-                                    className={styles.todo}
+                                    className="todo_box"
                                     key={i}
-                                    id={todo.id}
-                                    onClick={props.onTodoClick}
-                                    data-type="toggleTodo"
                                     data-id={todo.id}
-                                    draggable
+                                    onDragLeave={handleDragLeave}
+                                    onDragEnter={handleDragEnter}
+                                    onDragOver={handleDropOver}
+                                    onDrop={handleDrop}
                                 >
                                     <div
-                                        className={styles.todoCircle}
-                                        style={
-                                            todo.completed
-                                                ? circleStyles
-                                                : undefined
-                                        }
+                                        className={`${
+                                            styles.todo
+                                        } ${'todo_item'}`}
+                                        key={i}
+                                        id={todo.id}
+                                        onClick={props.onTodoClick}
                                         data-type="toggleTodo"
                                         data-id={todo.id}
+                                        draggable
+                                        data-draggable="true"
+                                        //
+                                        onDragStart={handleDragStart}
+                                        onDragEnd={handleDragEnd}
                                     >
-                                        <img
-                                            className={styles.iconCheck}
-                                            src={iconCheck}
-                                            alt=""
-                                            style={
-                                                todo.completed
-                                                    ? iconStyles
-                                                    : undefined
-                                            }
-                                            data-type="toggleTodo"
-                                            data-id={todo.id}
-                                        />
                                         <div
-                                            className={styles.todoCircleTop}
+                                            className={styles.todoCircle}
                                             style={
                                                 todo.completed
-                                                    ? circleTopStyles
+                                                    ? circleStyles
                                                     : undefined
                                             }
                                             data-type="toggleTodo"
                                             data-id={todo.id}
-                                        ></div>
+                                        >
+                                            <img
+                                                className={styles.iconCheck}
+                                                src={iconCheck}
+                                                alt=""
+                                                style={
+                                                    todo.completed
+                                                        ? iconStyles
+                                                        : undefined
+                                                }
+                                                data-type="toggleTodo"
+                                                data-id={todo.id}
+                                            />
+                                            <div
+                                                className={styles.todoCircleTop}
+                                                style={
+                                                    todo.completed
+                                                        ? circleTopStyles
+                                                        : undefined
+                                                }
+                                                data-type="toggleTodo"
+                                                data-id={todo.id}
+                                            ></div>
+                                        </div>
+
+                                        <p
+                                            className={styles.todoText}
+                                            style={
+                                                todo.completed
+                                                    ? textStyles
+                                                    : undefined
+                                            }
+                                            data-type="toggleTodo"
+                                            data-id={todo.id}
+                                        >
+                                            {todo.text}
+                                        </p>
+
+                                        <img
+                                            className={styles.iconCross}
+                                            src={iconCross}
+                                            alt=""
+                                            data-type="clearTodo"
+                                        />
                                     </div>
-
-                                    <p
-                                        className={styles.todoText}
-                                        style={
-                                            todo.completed
-                                                ? textStyles
-                                                : undefined
-                                        }
-                                        data-type="toggleTodo"
-                                        data-id={todo.id}
-                                    >
-                                        {todo.text}
-                                    </p>
-
-                                    <img
-                                        className={styles.iconCross}
-                                        src={iconCross}
-                                        alt=""
-                                        data-type="clearTodo"
-                                    />
                                 </div>
                             );
                         })}
 
                         {todos.length === 0 ? (
                             <div className={styles.default}>
-                                <p>fill the form above to add new todos</p>
+                                <p>📝 📝 📝</p>
                             </div>
                         ) : (
                             ''

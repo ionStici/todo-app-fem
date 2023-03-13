@@ -84,7 +84,9 @@ const options = {
         },
 
         reorderTodos: (state, action) => {
-            console.log(action.payload);
+            state.currentTodos = action.payload.map(id => {
+                return state.currentTodos.find(todo => todo.id === id);
+            });
         },
     },
 };

@@ -11,4 +11,5 @@ const store = configureStore({
 
 export default store;
 
-// store.subscribe(() => console.log(store.getState().todos));
+// store.subscribe(() => console.log(store.getState().todos.allTodos));
+// store.subscribe(() => console.log(store.getState().todos.currentTodos));

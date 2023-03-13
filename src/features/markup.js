@@ -6,6 +6,12 @@ import iconCross from './../images/icon-cross.svg';
 import { reorderTodos } from './todosSlice';
 import { useDispatch } from 'react-redux';
 
+import {
+    filterAllTodos,
+    filterActiveTodos,
+    filterCompletedTodos,
+} from './todosSlice';
+
 // prettier-ignore
 const circleStyles = { border: 'none', backgroundImage: 'var(--linear-gradient-bg)' };
 // prettier-ignore
@@ -20,16 +26,11 @@ export const Todo = props => {
     let dragTodo = React.useRef(null);
     let prevTodo = React.useRef(null);
 
-    let dropBox = React.useRef(null);
-    let prevDropBox = React.useRef(null);
-
     // // // // // // // // // // // // // // //
 
     const handleDragStart = event => {
         if (event.target.dataset.type === 'clearTodo') return;
-
         dragTodo.current = event.target.closest('.todo_item');
-        prevDropBox.current = dragTodo.current.closest('.todo_box');
     };
 
     const handleDragEnd = event => {};
@@ -46,17 +47,38 @@ export const Todo = props => {
 
     const handleDrop = event => {
         event.preventDefault();
-
         prevTodo.current = event.target.closest('.todo_item');
-        dropBox.current = event.target.closest('.todo_box');
 
-        dropBox.current.appendChild(dragTodo.current);
-        prevDropBox.current.appendChild(prevTodo.current);
+        const dragId = +dragTodo.current.dataset.id;
+        const prevId = +prevTodo.current.dataset.id;
 
-        const wrapper = document.querySelector('.todos_box');
-        const todos = [...wrapper.querySelectorAll('.todo_item')];
-        const ids = todos.map(box => +box.dataset.id);
-        dispatch(reorderTodos(ids));
+        const ids = [...document.querySelectorAll('.todo_item')].map(
+            todo => +todo.dataset.id
+        );
+
+        const dragIndex = ids.indexOf(dragId);
+        const prevIndex = ids.indexOf(prevId);
+
+        ids[dragIndex] = prevId;
+        ids[prevIndex] = dragId;
+
+        if (props.filter === 'all') {
+            dispatch(reorderTodos(ids));
+            // console.log(ids);
+            // dispatch(filterAllTodos());
+        }
+
+        if (props.filter === 'active') {
+            dispatch(reorderTodos(ids));
+            // console.log(ids);
+            // dispatch(filterActiveTodos());
+        }
+
+        if (props.filter === 'completed') {
+            dispatch(reorderTodos(ids));
+            // console.log(ids);
+            // dispatch(filterCompletedTodos());
+        }
     };
 
     // // // // // // // // // // // // // // //
@@ -75,7 +97,7 @@ export const Todo = props => {
 
                 <div className={styles.innerWrapper}>
                     <div className={`${styles.todosBox} ${'todos_box'}`}>
-                        {todos.map((todo, i) => {
+                        {todos.map((todo, i, _) => {
                             return (
                                 <div
                                     className="todo_box"
@@ -90,7 +112,6 @@ export const Todo = props => {
                                         className={`${
                                             styles.todo
                                         } ${'todo_item'}`}
-                                        key={i}
                                         id={todo.id}
                                         onClick={props.onTodoClick}
                                         data-type="toggleTodo"

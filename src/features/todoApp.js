@@ -110,9 +110,7 @@ export const TodoApp = function () {
         if (filter === 'completed') dispatch(filterCompletedTodos());
     };
 
-    // // // // // // // // // // // // // // //
-
-    // // // // // // // // // // // // // // //
+    // // // // // // // // // // // // // // // //
 
     return (
         <Todo
@@ -121,6 +119,7 @@ export const TodoApp = function () {
             onSubmit={handleSubmit}
             onTodoClick={handleTodoClick}
             onBtnClick={handleBtnClick}
+            filter={filter}
         />
     );
 };

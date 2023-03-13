@@ -18,6 +18,16 @@ const options = {
             });
         },
 
+        reorderTodos: (state, action) => {
+            const { dragId, prevId } = action.payload;
+            const dragIndex = state.allTodos.findIndex(t => t.id === dragId);
+            const prevIndex = state.allTodos.findIndex(t => t.id === prevId);
+
+            const copy = [...state.allTodos];
+            state.allTodos[dragIndex] = copy[prevIndex];
+            state.allTodos[prevIndex] = copy[dragIndex];
+        },
+
         toggleTodo: (state, action) => {
             state.allTodos.forEach(todo => {
                 if (todo.id === +action.payload) {
@@ -81,12 +91,6 @@ const options = {
             state.leftItems = state.allTodos.filter(
                 todo => todo.completed === false
             ).length;
-        },
-
-        reorderTodos: (state, action) => {
-            state.currentTodos = action.payload.map(id => {
-                return state.currentTodos.find(todo => todo.id === id);
-            });
         },
     },
 };

@@ -59,34 +59,11 @@ export const Todo = props => {
 
         const dragId = +dragTodo.current.dataset.id;
         const prevId = +prevTodo.current.dataset.id;
+        dispatch(reorderTodos({ dragId, prevId }));
 
-        const ids = [...document.querySelectorAll('.todo_item')].map(
-            todo => +todo.dataset.id
-        );
-
-        const dragIndex = ids.indexOf(dragId);
-        const prevIndex = ids.indexOf(prevId);
-
-        ids[dragIndex] = prevId;
-        ids[prevIndex] = dragId;
-
-        if (props.filter === 'all') {
-            dispatch(reorderTodos(ids));
-            // console.log(ids);
-            // dispatch(filterAllTodos());
-        }
-
-        if (props.filter === 'active') {
-            dispatch(reorderTodos(ids));
-            // console.log(ids);
-            // dispatch(filterActiveTodos());
-        }
-
-        if (props.filter === 'completed') {
-            dispatch(reorderTodos(ids));
-            // console.log(ids);
-            // dispatch(filterCompletedTodos());
-        }
+        if (props.filter === 'all') dispatch(filterAllTodos());
+        if (props.filter === 'active') dispatch(filterActiveTodos());
+        if (props.filter === 'completed') dispatch(filterCompletedTodos());
     };
 
     // // // // // // // // // // // // // // //

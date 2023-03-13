@@ -41,13 +41,21 @@ export const Todo = props => {
         event.preventDefault();
     };
 
-    const handleDragLeave = event => {};
+    const handleDragLeave = event => {
+        const prevEl = event.target.closest('.todo_box');
+        prevEl.style.backgroundColor = 'transparent';
+    };
 
-    const handleDragEnter = event => {};
+    const handleDragEnter = event => {
+        const currEl = event.target.closest('.todo_box');
+        currEl.style.backgroundColor =
+            'var(--color-veryLightGrayBlue---veryDarkGrayBlue)';
+    };
 
     const handleDrop = event => {
         event.preventDefault();
         prevTodo.current = event.target.closest('.todo_item');
+        event.target.closest('.todo_box').style.backgroundColor = 'transparent';
 
         const dragId = +dragTodo.current.dataset.id;
         const prevId = +prevTodo.current.dataset.id;

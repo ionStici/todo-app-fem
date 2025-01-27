@@ -1,5 +1,3 @@
-// // // // // // // // // // // // // // //
-
 .section {
     max-width: 548px;
     padding: 0 24px;
@@ -14,8 +12,6 @@
 .wrapper {
     position: relative;
 }
-
-// // // // // // // // // // // // // // //
 
 .inputBox {
     height: 48px;
@@ -124,23 +120,25 @@
     }
 }
 
-// // // // // // // // // // // // // // //
-
 .innerWrapper {
     background-color: var(--color-box-bg);
     box-shadow: var(--box-shadow-main);
     transition: background-color 0.15s, box-shadow 0.15s;
     border-radius: 5px;
-
     position: relative;
     z-index: 5;
 }
 
-// // // // // // // // // // // // // // //
-
 .todosBox {
     overflow: scroll;
     max-height: 520px;
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     @media only screen and (min-width: 600px) {
         max-height: 640px;
@@ -224,8 +222,6 @@
     }
 }
 
-// // // // // // // // // // // // // // //
-
 .todoText {
     font-weight: 400;
     font-size: 12px;
@@ -268,8 +264,6 @@
     }
 }
 
-// // // // // // // // // // // // // // //
-
 .default {
     height: 52px;
     cursor: pointer;
@@ -280,7 +274,6 @@
 
     p {
         color: var(--color-text);
-        // color: var(--color-lightGrayBlue---darkGrayBlue);
         font-weight: 400;
         font-size: 12px;
         line-height: 12px;
@@ -298,8 +291,6 @@
         height: 64px;
     }
 }
-
-// // // // // // // // // // // // // // //
 
 .bottomBox {
     display: flex;
@@ -352,8 +343,6 @@
         padding: 0 24px;
     }
 }
-
-// // // // // // // // // // // // // // //
 
 .footer {
     display: flex;
@@ -413,8 +402,6 @@
     @include footerBtns();
 }
 
-// // // // // // // // // // // // // // //
-
 .footerText {
     text-align: center;
     font-weight: 400;
@@ -431,5 +418,3 @@
         margin-top: 49px;
     }
 }
-
-// // // // // // // // // // // // // // //

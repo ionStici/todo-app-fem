@@ -50,17 +50,26 @@ export const Todo = props => {
         const currEl = event.target.closest('.todo_box');
         currEl.style.backgroundColor =
             'var(--color-veryLightGrayBlue---veryDarkGrayBlue)';
+
+        // prevTodo.current = event.target.closest('.todo_item');
+        // const dragId = +dragTodo.current.dataset.id;
+        // const prevId = +prevTodo.current.dataset.id;
+
+        // dispatch(reorderTodos({ dragId, prevId }));
+        // if (props.filter === 'all') dispatch(filterAllTodos());
+        // if (props.filter === 'active') dispatch(filterActiveTodos());
+        // if (props.filter === 'completed') dispatch(filterCompletedTodos());
     };
 
     const handleDrop = event => {
         event.preventDefault();
-        prevTodo.current = event.target.closest('.todo_item');
         event.target.closest('.todo_box').style.backgroundColor = 'transparent';
 
+        prevTodo.current = event.target.closest('.todo_item');
         const dragId = +dragTodo.current.dataset.id;
         const prevId = +prevTodo.current.dataset.id;
-        dispatch(reorderTodos({ dragId, prevId }));
 
+        dispatch(reorderTodos({ dragId, prevId }));
         if (props.filter === 'all') dispatch(filterAllTodos());
         if (props.filter === 'active') dispatch(filterActiveTodos());
         if (props.filter === 'completed') dispatch(filterCompletedTodos());
